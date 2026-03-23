@@ -18,6 +18,14 @@
 
   <h1 class="text-2xl font-bold mb-4 text-center">Parroquia Demo</h1>
 
+  <!-- Botón de instalación -->
+<div class="flex justify-center mb-4">
+  <button id="btnInstalar" 
+          class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300 hidden">
+    📲 Instalar App
+  </button>
+</div>
+  
   <!-- Carrusel de imágenes -->
   <div id="carrusel" class="flex overflow-x-auto gap-3 mb-4"></div>
 
@@ -86,6 +94,29 @@ if ('serviceWorker' in navigator) {
     .then(() => console.log("SW registrado"))
     .catch(err => console.log("Error SW:", err));
 }
+
+let deferredPrompt;
+const btnInstalar = document.getElementById("btnInstalar");
+
+// Capturamos el evento antes de que aparezca el prompt
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault(); // Previene que Chrome lo muestre automáticamente
+  deferredPrompt = e; 
+  btnInstalar.classList.remove("hidden"); // Mostramos el botón
+});
+
+// Evento click del botón
+btnInstalar.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt(); // Muestra el popup de instalación
+  const choice = await deferredPrompt.userChoice;
+  console.log("Elección del usuario:", choice.outcome); // accepted o dismissed
+  deferredPrompt = null;
+  btnInstalar.classList.add("hidden"); // Ocultamos botón después de instalar
+});
+
+
+  
 </script>
 
 </body>
