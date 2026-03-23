@@ -1,8 +1,8 @@
 {
-  "name": "Parroquia Demo",
-  "short_name": "Parroquia",
-  "start_url": "/parroquia/",
-  "scope": "/parroquia/",
+  "name": "San Pablo Apóstol",
+  "short_name": "San Pablo Apóstol",
+  "start_url": "/index.html/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0b1f3a",
   "theme_color": "#0b1f3a",
