@@ -14,6 +14,9 @@
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+<!-- ICONOS GRATIS Y SEGUROS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 body { background: linear-gradient(to bottom, #0b1f3a, #1e3a5f); font-family: 'Inter', sans-serif; }
 .fade-up { opacity:0; transform:translateY(20px); animation:fadeUp 0.8s forwards; }
@@ -36,11 +39,13 @@ function App() {
   const [actualizacionDisponible,setActualizacionDisponible]=React.useState(false);
 
   const imagenesAvisos = ["./Confesionescarta.png"];
+
+  // 🔹 IMÁGENES ACTUALIZADAS
   const pastorales = [
-    { nombre:"Misiones", img:"./prueba.jpg", link:"/misiones.html" },
-    { nombre:"Catequesis", img:"./prueba.jpg", link:"/catequesis.html" },
-    { nombre:"Familiar", img:"./prueba.jpg", link:"/familiar.html" },
-    { nombre:"Juvenil", img:"./prueba.jpg", link:"/juvenil.html" }
+    { nombre:"Misiones", img:"https://images.unsplash.com/photo-1529078155058-5d716f45d604?q=80&w=800", link:"/misiones.html" },
+    { nombre:"Catequesis", img:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800", link:"/catequesis.html" },
+    { nombre:"Familiar", img:"https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=800", link:"/familiar.html" },
+    { nombre:"Juvenil", img:"https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800", link:"/juvenil.html" }
   ];
 
   React.useEffect(()=>{
@@ -186,12 +191,8 @@ function App() {
                 else{await navigator.clipboard.writeText(imagenModal); alert("Link copiado: "+imagenModal);}
               }catch(err){alert("No se pudo compartir: "+err.message);}
             }} className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2">
+              <i className="fas fa-share-alt"></i>
               Compartir
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 4 16">
-                <circle cx="2" cy="2" r="1"/>
-                <circle cx="2" cy="8" r="1"/>
-                <circle cx="2" cy="14" r="1"/>
-              </svg>
             </button>
             <button onClick={()=>setImagenModal(null)} className="flex-1 bg-red-600 text-white py-2 rounded-lg shadow hover:bg-red-700 transition">Cerrar</button>
           </div>
@@ -199,8 +200,9 @@ function App() {
       )}
 
       {/* FOOTER */}
-      <footer className="mt-6 text-center text-white text-sm p-4 bg-white/10 backdrop-blur-md rounded-xl shadow-inner">
-        Diseñado por [Tu Nombre] | Ayuda a mejorar la aplicación con tu apoyo económico
+      <footer className="mt-6 text-center text-white text-sm p-4 bg-white/10 backdrop-blur-md rounded-xl shadow-inner leading-relaxed">
+        <p>Creado por comunicador parroquial</p>
+        <p className="text-yellow-300 mt-1">Ayuda a mejorar la aplicación con tu apoyo económico</p>
       </footer>
 
     </div>
