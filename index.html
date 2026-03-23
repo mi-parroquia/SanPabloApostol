@@ -203,8 +203,15 @@ function App() {
                 navigator.clipboard.writeText(imagenModal);
                 alert("Link copiado: " + imagenModal);
               }
-            }} className="bg-white text-black px-4 py-2 rounded">Compartir</button>
-            <button onClick={() => setImagenModal(null)} className="bg-red-600 text-white px-4 py-2 rounded">Cerrar</button>
+            }} className="bg-white text-black w-10 h-10 rounded flex items-center justify-center">
+  <svg xmlns="http://www.w3.org/2000/svg" 
+       viewBox="0 0 24 24" 
+       fill="currentColor" 
+       className="w-5 h-5">
+    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a2.5 2.5 0 000-1.39l7-4.11A2.99 2.99 0 0018 7.91a3 3 0 10-2.83-4A3 3 0 0012 5c0 .23.03.45.08.66l-7 4.11A3 3 0 006 9a3 3 0 100 6c.76 0 1.44-.3 1.96-.77l7.13 4.18c-.05.2-.09.41-.09.62a3 3 0 103-3z"/>
+  </svg>
+</button>
+            <button onClick={() => setImagenModal(null)} className="bg-red-600 text-white px-4 py-2 rounded">X</button>
           </div>
         </div>
       )}
