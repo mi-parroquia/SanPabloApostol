@@ -25,24 +25,18 @@
       font-family: 'Inter', sans-serif;
     }
 
-    .fade-up {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeUp 0.8s forwards;
-    }
+    .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s forwards; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .highlight-glow {
-      animation: glow 1.5s ease-in-out;
-    }
-
+    .highlight-glow { animation: glow 1.5s ease-in-out; border-radius: 1rem; }
     @keyframes glow {
-      0%, 100% { box-shadow: 0 0 10px rgba(255,255,0,0.3); }
-      50% { box-shadow: 0 0 20px rgba(255,255,0,0.6); }
+      0%, 100% { box-shadow: 0 0 12px rgba(255,255,0,0.3); }
+      50% { box-shadow: 0 0 24px rgba(255,255,0,0.6); }
     }
+
+    /* Mejoras visuales para cards y botones */
+    .card-hover:hover { transform: scale(1.05); transition: 0.3s; }
+    .btn-hover:hover { background-color: #facc15; transition: 0.3s; }
   </style>
 </head>
 <body>
@@ -55,10 +49,7 @@ function App() {
   const [deferredPrompt, setDeferredPrompt] = React.useState(null);
   const [mostrarBtnPWA, setMostrarBtnPWA] = React.useState(false);
 
-  const imagenesAvisos = [
-    "./Confesionescarta.png"
-  ];
-
+  const imagenesAvisos = ["./Confesionescarta.png"];
   const pastorales = [
     { nombre: "Misiones", img: "https://source.unsplash.com/300x200/?church,mission", link: "/misiones.html" },
     { nombre: "Catequesis", img: "https://source.unsplash.com/300x200/?bible,children", link: "/catequesis.html" },
@@ -66,7 +57,6 @@ function App() {
     { nombre: "Juvenil", img: "https://source.unsplash.com/300x200/?youth,church", link: "/juvenil.html" },
   ];
 
-  // PWA
   React.useEffect(() => {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
@@ -86,55 +76,34 @@ function App() {
   };
 
   return (
-    <div className="max-w-md mx-auto min-h-screen text-white">
+    <div className="max-w-md mx-auto min-h-screen text-white p-2">
 
-      {/* BOTÓN PWA */}
+      {/* Botón PWA */}
       {mostrarBtnPWA && (
         <div className="flex justify-center mb-4 mt-2">
-          <button
-            onClick={instalarApp}
-            className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300"
-          >
-            📲 Instalar App
-          </button>
+          <button onClick={instalarApp} className="bg-yellow-500 btn-hover text-black font-bold py-2 px-6 rounded-lg shadow-lg">📲 Instalar App</button>
         </div>
       )}
 
       {/* HEADER */}
-      <div className="backdrop-blur-md bg-white/10 p-6 flex items-center shadow-lg fade-up rounded-xl mb-3">
-        <img src="./SanPablito.png" className="w-14 h-14 mr-4 rounded-full bg-white p-1"/>
+      <div className="backdrop-blur-md bg-white/20 p-6 flex items-center shadow-lg fade-up rounded-xl mb-3">
+        <img src="./SanPablito.png" className="w-16 h-16 mr-4 rounded-full bg-white p-1"/>
         <div>
-          <h1 className="text-lg font-extrabold leading-tight drop-shadow-lg">Parroquia de San Pablo Apóstol</h1>
-          <p className="text-sm">II Vicaria Diócesis de Texcoco A.R</p>
+          <h1 className="text-xl font-extrabold leading-tight drop-shadow-lg">Parroquia de San Pablo Apóstol</h1>
+          <p className="text-sm text-yellow-300">II Vicaria Diócesis de Texcoco A.R</p>
         </div>
       </div>
 
       {/* AVISOS */}
       <div className="p-3 fade-up" style={{ animationDelay: "0.2s" }}>
         <h2 className="font-bold mb-2 text-center text-lg">Avisos Parroquiales</h2>
-        {imagenesAvisos.length === 1 ? (
-          <div className="flex justify-center">
-            <img
-              src={imagenesAvisos[0]}
-              className="w-full max-w-md aspect-[3/4] object-contain rounded-lg shadow-lg cursor-pointer"
-              onClick={() => setImagenModal(imagenesAvisos[0])}
-            />
-          </div>
-        ) : (
-          <div className="flex flex-col gap-1">
-            <div className="flex overflow-x-auto gap-3">
-              {imagenesAvisos.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  className="w-60 h-40 object-cover rounded-lg shadow-lg cursor-pointer flex-shrink-0"
-                  onClick={() => setImagenModal(img)}
-                />
-              ))}
-            </div>
-            <p className="text-xs mt-1 text-center">Click sobre la imagen para ampliar</p>
-          </div>
-        )}
+        <div className="flex justify-center">
+          <img
+            src={imagenesAvisos[0]}
+            className="w-full max-w-md aspect-[3/4] object-contain rounded-lg shadow-lg cursor-pointer"
+            onClick={() => setImagenModal(imagenesAvisos[0])}
+          />
+        </div>
       </div>
 
       {/* CONTENIDO */}
@@ -143,9 +112,7 @@ function App() {
         {/* ANUNCIO */}
         <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white rounded-2xl p-6 shadow-xl highlight-glow">
           <h2 className="font-extrabold text-2xl mb-3 text-center">✨ ¡Aviso! ✨</h2>
-          <p className="text-lg font-semibold text-center mb-2">
-            El Domingo de Ramos no hay misa de 8 a.m, habrá Procesión a las 10 a.m desde San José
-          </p>
+          <p className="text-lg font-semibold text-center mb-2">El Domingo de Ramos no hay misa de 8 a.m, habrá Procesión a las 10 a.m desde San José</p>
           <p className="text-center mb-2">Acompáñanos en este recorrido lleno de fe y tradición.</p>
           <div className="mt-4 bg-white/20 backdrop-blur-md rounded-xl p-3">
             <p><span className="font-bold">📍 Punto de salida:</span> San José</p>
@@ -156,7 +123,7 @@ function App() {
         </div>
 
         {/* HORARIOS */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
+        <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 shadow-lg">
           <h2 className="font-bold mb-2 text-lg">Horarios</h2>
           <p><b>Misa:</b> Domingo 8:00, 12:00, 19:00 HRS</p>
           <p><b>Confesiones y Hora Santa:</b> Jueves 5:00 PM</p>
@@ -169,7 +136,7 @@ function App() {
           <div className="grid grid-cols-2 gap-3">
             {pastorales.map((p, i) => (
               <a key={i} href={p.link}>
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg hover:scale-105 transition transform cursor-pointer">
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg card-hover cursor-pointer">
                   <img src={p.img} className="w-full h-32 object-cover"/>
                   <div className="p-2 text-center font-semibold">{p.nombre}</div>
                 </div>
@@ -179,20 +146,20 @@ function App() {
         </div>
 
         {/* IMAGEN DEL TEMPLO */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-2 shadow-lg fade-up" style={{animationDelay:"0.6s"}}>
+        <div className="bg-white/20 backdrop-blur-md rounded-2xl p-2 shadow-lg fade-up">
           <h2 className="font-bold mb-2 text-center">Imagen del Templo</h2>
           <img src="./iglesia1.jpg" className="w-full h-56 object-cover rounded-xl shadow-lg"/>
         </div>
 
         {/* INFORMACIÓN */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
+        <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 shadow-lg">
           <h2 className="font-bold mb-2">Información</h2>
           <p>Dirección: Calle Hidalgo esquina con Benito Juárez, San Pablito Calmimilolco Chiconcuac México C.P 56270</p>
           <p>Teléfono:</p>
         </div>
 
         {/* MAPA */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
+        <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 shadow-lg">
           <h2 className="font-bold mb-2">Ubicación</h2>
           <iframe src="https://www.google.com/maps/d/embed?mid=1YIT-P8x7znCqBuBpO6VtmfxikfrU2SY&ehbc=2E312F&noprof=1" width="300" height="290"></iframe>
         </div>
@@ -204,24 +171,15 @@ function App() {
         <div
           className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center p-4"
           onClick={(e) => { if(e.target === e.currentTarget) setImagenModal(null); }}
-          onKeyDown={(e) => { if(e.key === "Escape") setImagenModal(null); }}
           tabIndex={-1}
         >
-          <img
-            src={imagenModal}
-            className="max-h-[70vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"
-          />
+          <img src={imagenModal} className="max-h-[70vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"/>
           <div className="flex justify-center gap-4 mt-2 w-full max-w-md">
-            {/* Compartir con icono tipo 3 puntos a la derecha */}
             <button
               onClick={async () => {
                 try {
-                  if (navigator.share) {
-                    await navigator.share({ url: imagenModal });
-                  } else {
-                    await navigator.clipboard.writeText(imagenModal);
-                    alert("Link copiado: " + imagenModal);
-                  }
+                  if (navigator.share) { await navigator.share({ url: imagenModal }); }
+                  else { await navigator.clipboard.writeText(imagenModal); alert("Link copiado: " + imagenModal); }
                 } catch (err) { alert("No se pudo compartir: " + err.message); }
               }}
               className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2"
@@ -233,13 +191,7 @@ function App() {
                 <circle cx="2" cy="14" r="1"/>
               </svg>
             </button>
-
-            <button
-              onClick={() => setImagenModal(null)}
-              className="flex-1 bg-red-600 text-white py-2 rounded-lg shadow hover:bg-red-700 transition"
-            >
-              Cerrar
-            </button>
+            <button onClick={() => setImagenModal(null)} className="flex-1 bg-red-600 text-white py-2 rounded-lg shadow hover:bg-red-700 transition">Cerrar</button>
           </div>
         </div>
       )}
