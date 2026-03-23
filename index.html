@@ -74,7 +74,6 @@ function App() {
           src="./SanPablito.png" 
           className="w-10 h-10 mr-3 rounded-full bg-white p-1"
         />
-
         <div>
           <h1 className="text-xs font-bold leading-tight">
             Parroquia de San Pablo Apóstol
@@ -119,21 +118,17 @@ function App() {
           <h2 className="font-extrabold text-2xl mb-3 text-center">
             ✨ ¡Aviso! ✨
           </h2>
-
           <p className="text-lg font-semibold text-center mb-2">
             El Domingo de Ramos no hay misa de 8 a.m en la Parroquia, se hará la Procesión a las 10 a.m iniciando en la capilla de San José
           </p>
-
           <p className="text-center mb-2">
             Acompáñanos en este recorrido lleno de fe y tradición.
           </p>
-
           <div className="mt-4 bg-white/20 backdrop-blur-md rounded-xl p-3">
             <p><span className="font-bold">📍 Punto de salida:</span> San José</p>
             <p><span className="font-bold">📅 Fecha:</span> (Agrega aquí la fecha)</p>
             <p><span className="font-bold">⏰ Hora:</span> (Agrega aquí la hora)</p>
           </div>
-
           <p className="text-center mt-4 font-semibold">
             ¡Te esperamos! 🙌
           </p>
@@ -157,7 +152,7 @@ function App() {
           </ul>
         </div>
 
-        {/* IMAGEN */}
+        {/* IMAGEN DEL TEMPLO */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-2 shadow-lg fade-up" style={{animationDelay:"0.6s"}}>
           <h2 className="font-bold mb-2 text-center">Imagen del Templo</h2>
           <img 
@@ -166,14 +161,14 @@ function App() {
           />
         </div>
 
-        {/* ✅ INFORMACIÓN (ARREGLADO) */}
+        {/* INFORMACIÓN */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
           <h2 className="font-bold mb-2">Información</h2>
           <p>Dirección: Calle Hidalgo esquina con Benito Juárez, San Pablito Calmimilolco Chiconcuac México C.P 56270</p>
           <p>Teléfono:</p>
         </div>
 
-        {/* ✅ MAPA (ARREGLADO) */}
+        {/* MAPA */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
           <h2 className="font-bold mb-2">Ubicación</h2>
           <iframe src="https://www.google.com/maps/d/embed?mid=1YIT-P8x7znCqBuBpO6VtmfxikfrU2SY&ehbc=2E312F&noprof=1" width="300" height="290"></iframe>
@@ -181,14 +176,44 @@ function App() {
 
       </div>
 
-      {/* MODAL */}
+      {/* 🔥 MODAL IMAGEN – CORREGIDO */}
       {imagenModal && (
-        <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+          onClick={(e) => { if(e.target === e.currentTarget) setImagenModal(null); }}
+          onKeyDown={(e) => { if(e.key === "Escape") setImagenModal(null); }}
+          tabIndex={-1}
+        >
           <img 
             src={imagenModal}
             className="max-h-[80vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"
           />
-          <button onClick={() => setImagenModal(null)} className="bg-red-600 text-white px-4 py-2 rounded">X</button>
+          <div className="flex gap-4">
+            <button
+              onClick={async () => {
+                try {
+                  if (navigator.share) {
+                    await navigator.share({ url: imagenModal });
+                  } else {
+                    await navigator.clipboard.writeText(imagenModal);
+                    alert("Link copiado: " + imagenModal);
+                  }
+                } catch (err) {
+                  alert("No se pudo compartir: " + err.message);
+                }
+              }}
+              className="bg-white text-black w-10 h-10 rounded flex items-center justify-center"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <button onClick={() => setImagenModal(null)} className="bg-red-600 text-white px-4 py-2 rounded">X</button>
+          </div>
         </div>
       )}
 
@@ -197,6 +222,32 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+// --------- PWA INSTALL BUTTON ---------
+let deferredPrompt;
+const btnInstalar = document.getElementById("btnInstalar");
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  btnInstalar.classList.remove("hidden");
+});
+
+btnInstalar.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const choice = await deferredPrompt.userChoice;
+  console.log("Elección del usuario:", choice.outcome);
+  deferredPrompt = null;
+  btnInstalar.classList.add("hidden");
+});
+
+// --------- SERVICE WORKER ---------
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(() => console.log("SW registrado"))
+    .catch(err => console.log("Error SW:", err));
+}
+
 </script>
 
 </body>
