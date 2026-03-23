@@ -8,6 +8,7 @@
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#0b1f3a">
 
+<!-- Tailwind + React + Babel -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -28,8 +29,8 @@ body { background: linear-gradient(to bottom, #0b1f3a, #1e3a5f); font-family: 'I
 <div id="root"></div>
 
 <script type="text/babel">
-function App(){
-  const [imagenModal, setImagenModal] = React.useState(null);
+function App() {
+  const [imagenModal,setImagenModal]=React.useState(null);
   const [deferredPrompt,setDeferredPrompt]=React.useState(null);
   const [mostrarBtnPWA,setMostrarBtnPWA]=React.useState(false);
   const [actualizacionDisponible,setActualizacionDisponible]=React.useState(false);
@@ -72,11 +73,18 @@ function App(){
           });
         });
       });
+
+      navigator.serviceWorker.addEventListener('message', event=>{
+        if(event.data?.type==='NEW_VERSION_AVAILABLE'){
+          setActualizacionDisponible(true);
+        }
+      });
     }
   },[]);
 
   return (
     <div className="max-w-md mx-auto min-h-screen text-white p-2">
+      
       {mostrarBtnPWA && (
         <div className="flex justify-center mb-4 mt-2">
           <button onClick={instalarApp} className="bg-yellow-500 btn-hover text-black font-bold py-2 px-6 rounded-lg shadow-lg">📲 Instalar App</button>
@@ -109,6 +117,7 @@ function App(){
 
       {/* CONTENIDO */}
       <div className="p-3 space-y-4 fade-up" style={{animationDelay:"0.4s"}}>
+        
         {/* ANUNCIO */}
         <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white rounded-2xl p-6 shadow-xl highlight-glow">
           <h2 className="font-extrabold text-2xl mb-3 text-center">✨ ¡Aviso! ✨</h2>
@@ -203,7 +212,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
 <script>
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/sw.js').then(()=>console.log("SW registrado")).catch(err=>console.log("Error SW:",err));
+  navigator.serviceWorker.register('/sw.js')
+  .then(()=>console.log("SW registrado"))
+  .catch(err=>console.log("Error SW:",err));
 }
 </script>
 
