@@ -1,1 +1,92 @@
-oa2
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parroquia Demo</title>
+
+  <!-- Manifest para PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b1f3a">
+
+  <!-- Tailwind para estilos fáciles -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-900 text-white">
+
+<div class="max-w-md mx-auto p-4">
+
+  <h1 class="text-2xl font-bold mb-4 text-center">Parroquia Demo</h1>
+
+  <!-- Carrusel de imágenes -->
+  <div id="carrusel" class="flex overflow-x-auto gap-3 mb-4"></div>
+
+  <!-- Modal para imagen grande -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50">
+    <div class="text-center">
+      <img id="modalImg" class="max-w-[90vw] max-h-[80vh] mb-4 rounded">
+      <br>
+      <button onclick="compartir()" class="bg-white text-black px-4 py-2 rounded mb-4">Compartir</button>
+      <br>
+      <button onclick="cerrarModal()" class="bg-red-600 text-white px-4 py-2 rounded">Cerrar</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Datos de la parroquia (fácil de modificar)
+const imagenes = [
+  "https://picsum.photos/400/300?random=1",
+  "https://picsum.photos/400/300?random=2",
+  "https://picsum.photos/400/300?random=3"
+];
+
+const carrusel = document.getElementById("carrusel");
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modalImg");
+let imagenActual = "";
+
+// Renderizamos carrusel
+imagenes.forEach(img => {
+  const imageEl = document.createElement("img");
+  imageEl.src = img;
+  imageEl.className = "w-60 rounded-lg cursor-pointer";
+  imageEl.onclick = () => mostrarModal(img);
+  carrusel.appendChild(imageEl);
+});
+
+// Mostrar modal
+function mostrarModal(src) {
+  imagenActual = src;
+  modalImg.src = src;
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+// Cerrar modal
+function cerrarModal() {
+  modal.classList.remove("flex");
+  modal.classList.add("hidden");
+}
+
+// Compartir (si el navegador soporta)
+function compartir() {
+  if (navigator.share) {
+    navigator.share({ url: imagenActual });
+  } else {
+    navigator.clipboard.writeText(imagenActual);
+    alert("Link copiado: " + imagenActual);
+  }
+}
+
+// Registrar Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log("SW registrado"))
+    .catch(err => console.log("Error SW:", err));
+}
+</script>
+
+</body>
+</html>
