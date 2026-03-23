@@ -1,7 +1,6 @@
 const CACHE_NAME = "parroquia-demo-v1";
 const urlsToCache = [
-  "/parroquia/",
-  "/parroquia/index.html"
+  "/index.html"
 ];
 
 self.addEventListener("install", event => {
