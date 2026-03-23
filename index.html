@@ -90,20 +90,33 @@ function App() {
         </div>
       </div>
 
-      {/* 📢 AVISOS / CARRUSEL */}
-      <div className="p-3 fade-up" style={{animationDelay: "0.2s"}}>
-        <h2 className="font-bold mb-2 text-center">Avisos Parroquiales</h2>
-        <div className="flex overflow-x-auto gap-3">
-          {imagenesAvisos.map((img, i) => (
-            <img 
-              key={i}
-              src={img}
-              className="w-60 h-40 object-cover rounded-lg shadow-lg cursor-pointer"
-              onClick={() => setImagenModal(img)}
-            />
-          ))}
-        </div>
-      </div>
+     {/* 📢 AVISOS / CARRUSEL */}
+<div className="p-3 fade-up" style={{ animationDelay: "0.2s" }}>
+  <h2 className="font-bold mb-2 text-center">Avisos Parroquiales</h2>
+
+  {imagenesAvisos.length === 1 ? (
+    // 👉 UNA SOLA IMAGEN (modo vertical tipo carta)
+    <div className="flex justify-center">
+      <img
+        src={imagenesAvisos[0]}
+        className="w-full max-w-md aspect-[3/4] object-contain rounded-lg shadow-lg cursor-pointer"
+        onClick={() => setImagenModal(imagenesAvisos[0])}
+      />
+    </div>
+  ) : (
+    // 👉 VARIAS IMÁGENES (carrusel horizontal)
+    <div className="flex overflow-x-auto gap-3">
+      {imagenesAvisos.map((img, i) => (
+        <img
+          key={i}
+          src={img}
+          className="w-60 h-40 object-cover rounded-lg shadow-lg cursor-pointer flex-shrink-0"
+          onClick={() => setImagenModal(img)}
+        />
+      ))}
+    </div>
+  )}
+</div>
 
       {/* 📍 CONTENIDO */}
       <div className="p-3 space-y-4 fade-up" style={{animationDelay: "0.4s"}}>
