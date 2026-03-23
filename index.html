@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parroquia San Pablo</title>
 
-  <!-- Manifest para PWA -->
+  <!-- Manifest PWA -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0b1f3a">
 
@@ -16,12 +16,13 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
-  <!-- Babel (CDN seguro) -->
+  <!-- Babel -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
     body {
       background: linear-gradient(to bottom, #0b1f3a, #1e3a5f);
+      font-family: 'Inter', sans-serif;
     }
 
     .fade-up {
@@ -34,13 +35,13 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .bounce {
-      animation: bounce 1.2s infinite;
+    .highlight-glow {
+      animation: glow 1.5s ease-in-out;
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 10px rgba(255,255,0,0.3); }
+      50% { box-shadow: 0 0 20px rgba(255,255,0,0.6); }
     }
   </style>
 </head>
@@ -55,7 +56,18 @@ function App() {
   const [deferredPrompt, setDeferredPrompt] = React.useState(null);
   const [mostrarBtnPWA, setMostrarBtnPWA] = React.useState(false);
 
-  const imagenesAvisos = ["./Confesionescarta.png"];
+  const imagenesAvisos = [
+    "./Confesionescarta.png",
+    "./Aviso2.png",
+    "./Aviso3.png"
+  ];
+
+  const pastorales = [
+    { nombre: "Misiones", img: "https://via.placeholder.com/300x200?text=Misiones", link: "/misiones.html" },
+    { nombre: "Catequesis", img: "https://via.placeholder.com/300x200?text=Catequesis", link: "/catequesis.html" },
+    { nombre: "Familiar", img: "https://via.placeholder.com/300x200?text=Pastoral+Familiar", link: "/familiar.html" },
+    { nombre: "Juvenil", img: "https://via.placeholder.com/300x200?text=Pastoral+Juvenil", link: "/juvenil.html" },
+  ];
 
   // Manejo PWA
   React.useEffect(() => {
@@ -91,36 +103,40 @@ function App() {
         </div>
       )}
 
-      {/* HEADER */}
-      <div className="backdrop-blur-md bg-white/10 p-4 flex items-center shadow-lg fade-up">
-        <img src="./SanPablito.png" className="w-10 h-10 mr-3 rounded-full bg-white p-1"/>
+      {/* HEADER mejorado */}
+      <div className="backdrop-blur-md bg-white/10 p-6 flex items-center shadow-lg fade-up rounded-xl mb-3">
+        <img src="./SanPablito.png" className="w-14 h-14 mr-4 rounded-full bg-white p-1"/>
         <div>
-          <h1 className="text-xs font-bold leading-tight">Parroquia de San Pablo Apóstol</h1>
-          <p className="text-[10px]">II Vicaria Diócesis de Texcoco A.R</p>
+          <h1 className="text-lg font-extrabold leading-tight drop-shadow-lg">Parroquia de San Pablo Apóstol</h1>
+          <p className="text-sm">II Vicaria Diócesis de Texcoco A.R</p>
         </div>
       </div>
 
       {/* AVISOS */}
       <div className="p-3 fade-up" style={{ animationDelay: "0.2s" }}>
-        <h2 className="font-bold mb-2 text-center">Avisos Parroquiales</h2>
+        <h2 className="font-bold mb-2 text-center text-lg">Avisos Parroquiales</h2>
         {imagenesAvisos.length === 1 ? (
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center">
             <img
               src={imagenesAvisos[0]}
               className="w-full max-w-md aspect-[3/4] object-contain rounded-lg shadow-lg cursor-pointer"
               onClick={() => setImagenModal(imagenesAvisos[0])}
             />
+            <p className="text-xs mt-2 text-center">Click para ampliar</p>
           </div>
         ) : (
-          <div className="flex overflow-x-auto gap-3">
-            {imagenesAvisos.map((img, i) => (
-              <img
-                key={i}
-                src={img}
-                className="w-60 h-40 object-cover rounded-lg shadow-lg cursor-pointer flex-shrink-0"
-                onClick={() => setImagenModal(img)}
-              />
-            ))}
+          <div className="flex flex-col gap-1">
+            <div className="flex overflow-x-auto gap-3">
+              {imagenesAvisos.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  className="w-60 h-40 object-cover rounded-lg shadow-lg cursor-pointer flex-shrink-0"
+                  onClick={() => setImagenModal(img)}
+                />
+              ))}
+            </div>
+            <p className="text-xs mt-1 text-center">Click sobre la imagen para ampliar</p>
           </div>
         )}
       </div>
@@ -128,8 +144,8 @@ function App() {
       {/* CONTENIDO */}
       <div className="p-3 space-y-4 fade-up" style={{animationDelay: "0.4s"}}>
 
-        {/* ANUNCIO */}
-        <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white rounded-2xl p-6 shadow-xl animate-pulse">
+        {/* ANUNCIO con animación sutil */}
+        <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white rounded-2xl p-6 shadow-xl highlight-glow">
           <h2 className="font-extrabold text-2xl mb-3 text-center">✨ ¡Aviso! ✨</h2>
           <p className="text-lg font-semibold text-center mb-2">
             El Domingo de Ramos no hay misa de 8 a.m, habrá Procesión a las 10 a.m desde San José
@@ -143,22 +159,27 @@ function App() {
           <p className="text-center mt-4 font-semibold">¡Te esperamos! 🙌</p>
         </div>
 
-        {/* HORARIOS */}
+        {/* SECCIÓN HORARIOS */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
-          <h2 className="font-bold mb-2">Horarios</h2>
+          <h2 className="font-bold mb-2 text-lg">Horarios</h2>
           <p><b>Misa:</b> Domingo 8:00, 12:00, 19:00 HRS</p>
           <p><b>Confesiones y Hora Santa:</b> Jueves 5:00 PM</p>
           <p><b>Misa diaria:</b> 8:00 AM</p>
         </div>
 
-        {/* PASTORALES */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
-          <h2 className="font-bold mb-2">Pastorales</h2>
-          <ul className="list-disc ml-5">
-            <li>Pastoral Juvenil</li>
-            <li>Pastoral Familiar</li>
-            <li>Catequesis</li>
-          </ul>
+        {/* SECCIÓN PASTORALES */}
+        <div>
+          <h2 className="font-bold mb-3 text-lg text-center">Pastorales</h2>
+          <div className="grid grid-cols-2 gap-3">
+            {pastorales.map((p, i) => (
+              <a key={i} href={p.link}>
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg hover:scale-105 transition transform cursor-pointer">
+                  <img src={p.img} className="w-full h-32 object-cover"/>
+                  <div className="p-2 text-center font-semibold">{p.nombre}</div>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* IMAGEN DEL TEMPLO */}
@@ -227,6 +248,11 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* FOOTER */}
+      <footer className="mt-6 text-center text-white/70 text-sm p-4">
+        Diseñado por [Tu Nombre] | Ayuda a mejorar la aplicación con tu apoyo económico
+      </footer>
 
     </div>
   );
