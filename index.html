@@ -1,87 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parroquia San Pablo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parroquia San Pablo</title>
 
-  <!-- Manifest PWA -->
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#0b1f3a">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0b1f3a">
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- React -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-  <!-- Babel -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <style>
-    body {
-      background: linear-gradient(to bottom, #0b1f3a, #1e3a5f);
-      font-family: 'Inter', sans-serif;
-    }
-
-    .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s forwards; }
-    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-    .highlight-glow { animation: glow 1.5s ease-in-out; border-radius: 1rem; }
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 12px rgba(255,255,0,0.3); }
-      50% { box-shadow: 0 0 24px rgba(255,255,0,0.6); }
-    }
-
-    /* Mejoras visuales para cards y botones */
-    .card-hover:hover { transform: scale(1.05); transition: 0.3s; }
-    .btn-hover:hover { background-color: #facc15; transition: 0.3s; }
-  </style>
+<style>
+body { background: linear-gradient(to bottom, #0b1f3a, #1e3a5f); font-family: 'Inter', sans-serif; }
+.fade-up { opacity:0; transform:translateY(20px); animation:fadeUp 0.8s forwards; }
+@keyframes fadeUp { to {opacity:1; transform:translateY(0);} }
+.highlight-glow { animation:glow 1.5s ease-in-out; border-radius:1rem; }
+@keyframes glow { 0%,100%{box-shadow:0 0 12px rgba(255,255,0,0.3);} 50%{box-shadow:0 0 24px rgba(255,255,0,0.6);} }
+.card-hover:hover{ transform: scale(1.05); transition: 0.3s;}
+.btn-hover:hover{ background-color:#facc15; transition:0.3s;}
+</style>
 </head>
 <body>
 
 <div id="root"></div>
 
 <script type="text/babel">
-function App() {
+function App(){
   const [imagenModal, setImagenModal] = React.useState(null);
-  const [deferredPrompt, setDeferredPrompt] = React.useState(null);
-  const [mostrarBtnPWA, setMostrarBtnPWA] = React.useState(false);
+  const [deferredPrompt,setDeferredPrompt]=React.useState(null);
+  const [mostrarBtnPWA,setMostrarBtnPWA]=React.useState(false);
+  const [actualizacionDisponible,setActualizacionDisponible]=React.useState(false);
 
   const imagenesAvisos = ["./Confesionescarta.png"];
   const pastorales = [
-    { nombre: "Misiones", img: "https://source.unsplash.com/300x200/?church,mission", link: "/misiones.html" },
-    { nombre: "Catequesis", img: "https://source.unsplash.com/300x200/?bible,children", link: "/catequesis.html" },
-    { nombre: "Familiar", img: "https://source.unsplash.com/300x200/?family,church", link: "/familiar.html" },
-    { nombre: "Juvenil", img: "https://source.unsplash.com/300x200/?youth,church", link: "/juvenil.html" },
+    { nombre:"Misiones", img:"https://source.unsplash.com/300x200/?church,mission", link:"/misiones.html" },
+    { nombre:"Catequesis", img:"https://source.unsplash.com/300x200/?bible,children", link:"/catequesis.html" },
+    { nombre:"Familiar", img:"https://source.unsplash.com/300x200/?family,church", link:"/familiar.html" },
+    { nombre:"Juvenil", img:"https://source.unsplash.com/300x200/?youth,church", link:"/juvenil.html" }
   ];
 
-  React.useEffect(() => {
-    const handleBeforeInstallPrompt = (e) => {
+  React.useEffect(()=>{
+    const handleBeforeInstallPrompt=(e)=>{
       e.preventDefault();
       setDeferredPrompt(e);
       setMostrarBtnPWA(true);
     };
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-  }, []);
+    window.addEventListener("beforeinstallprompt",handleBeforeInstallPrompt);
+    return ()=> window.removeEventListener("beforeinstallprompt",handleBeforeInstallPrompt);
+  },[]);
 
-  const instalarApp = async () => {
-    if (!deferredPrompt) return;
+  const instalarApp=async()=>{
+    if(!deferredPrompt) return;
     deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
-    if (choice.outcome === "accepted") setMostrarBtnPWA(false);
+    const choice=await deferredPrompt.userChoice;
+    if(choice.outcome==="accepted") setMostrarBtnPWA(false);
     setDeferredPrompt(null);
   };
 
+  React.useEffect(()=>{
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').then(reg=>{
+        // Detectar nueva versión
+        reg.addEventListener('updatefound',()=>{
+          const newSW=reg.installing;
+          newSW.addEventListener('statechange',()=>{
+            if(newSW.state==='installed' && navigator.serviceWorker.controller){
+              setActualizacionDisponible(true);
+            }
+          });
+        });
+      });
+    }
+  },[]);
+
   return (
     <div className="max-w-md mx-auto min-h-screen text-white p-2">
-
-      {/* Botón PWA */}
       {mostrarBtnPWA && (
         <div className="flex justify-center mb-4 mt-2">
           <button onClick={instalarApp} className="bg-yellow-500 btn-hover text-black font-bold py-2 px-6 rounded-lg shadow-lg">📲 Instalar App</button>
+        </div>
+      )}
+
+      {/* Banner actualización */}
+      {actualizacionDisponible && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-black px-4 py-2 rounded shadow-lg z-50 flex items-center gap-3">
+          Nueva versión disponible
+          <button className="bg-black text-white px-2 py-1 rounded" onClick={()=>window.location.reload()}>Actualizar</button>
         </div>
       )}
 
@@ -95,20 +102,15 @@ function App() {
       </div>
 
       {/* AVISOS */}
-      <div className="p-3 fade-up" style={{ animationDelay: "0.2s" }}>
+      <div className="p-3 fade-up" style={{animationDelay:"0.2s"}}>
         <h2 className="font-bold mb-2 text-center text-lg">Avisos Parroquiales</h2>
         <div className="flex justify-center">
-          <img
-            src={imagenesAvisos[0]}
-            className="w-full max-w-md aspect-[3/4] object-contain rounded-lg shadow-lg cursor-pointer"
-            onClick={() => setImagenModal(imagenesAvisos[0])}
-          />
+          <img src={imagenesAvisos[0]} className="w-full max-w-md aspect-[3/4] object-contain rounded-lg shadow-lg cursor-pointer" onClick={()=>setImagenModal(imagenesAvisos[0])}/>
         </div>
       </div>
 
       {/* CONTENIDO */}
-      <div className="p-3 space-y-4 fade-up" style={{animationDelay: "0.4s"}}>
-
+      <div className="p-3 space-y-4 fade-up" style={{animationDelay:"0.4s"}}>
         {/* ANUNCIO */}
         <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white rounded-2xl p-6 shadow-xl highlight-glow">
           <h2 className="font-extrabold text-2xl mb-3 text-center">✨ ¡Aviso! ✨</h2>
@@ -134,7 +136,7 @@ function App() {
         <div>
           <h2 className="font-bold mb-3 text-lg text-center">Pastorales</h2>
           <div className="grid grid-cols-2 gap-3">
-            {pastorales.map((p, i) => (
+            {pastorales.map((p,i)=>(
               <a key={i} href={p.link}>
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg card-hover cursor-pointer">
                   <img src={p.img} className="w-full h-32 object-cover"/>
@@ -168,22 +170,15 @@ function App() {
 
       {/* MODAL */}
       {imagenModal && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center p-4"
-          onClick={(e) => { if(e.target === e.currentTarget) setImagenModal(null); }}
-          tabIndex={-1}
-        >
+        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center p-4" onClick={e=>{if(e.target===e.currentTarget) setImagenModal(null);}}>
           <img src={imagenModal} className="max-h-[70vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"/>
           <div className="flex justify-center gap-4 mt-2 w-full max-w-md">
-            <button
-              onClick={async () => {
-                try {
-                  if (navigator.share) { await navigator.share({ url: imagenModal }); }
-                  else { await navigator.clipboard.writeText(imagenModal); alert("Link copiado: " + imagenModal); }
-                } catch (err) { alert("No se pudo compartir: " + err.message); }
-              }}
-              className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2"
-            >
+            <button onClick={async ()=>{
+              try{
+                if(navigator.share){await navigator.share({url:imagenModal});}
+                else{await navigator.clipboard.writeText(imagenModal); alert("Link copiado: "+imagenModal);}
+              }catch(err){alert("No se pudo compartir: "+err.message);}
+            }} className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2">
               Compartir
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 4 16">
                 <circle cx="2" cy="2" r="1"/>
@@ -191,7 +186,7 @@ function App() {
                 <circle cx="2" cy="14" r="1"/>
               </svg>
             </button>
-            <button onClick={() => setImagenModal(null)} className="flex-1 bg-red-600 text-white py-2 rounded-lg shadow hover:bg-red-700 transition">Cerrar</button>
+            <button onClick={()=>setImagenModal(null)} className="flex-1 bg-red-600 text-white py-2 rounded-lg shadow hover:bg-red-700 transition">Cerrar</button>
           </div>
         </div>
       )}
@@ -208,12 +203,9 @@ function App() {
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
 
-<!-- SERVICE WORKER -->
 <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js')
-    .then(() => console.log("SW registrado"))
-    .catch(err => console.log("Error SW:", err));
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').then(()=>console.log("SW registrado")).catch(err=>console.log("Error SW:",err));
 }
 </script>
 
