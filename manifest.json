@@ -12,7 +12,7 @@
 
 {  
 
-"src": "https://cdn-icons-png.flaticon.com/512/3176/3176292.png",
+"src": "sanpablito192.png",
       "sizes": "192x192",
       "type": "image/png",
     "purpose": "any maskable"
@@ -20,7 +20,7 @@
 },
 {  
 
-	 "src": "https://cdn-icons-png.flaticon.com/512/3176/3176292.png",
+	 "src": "sanpablito512.png",
       "sizes": "512x512",
       "type": "image/png",
     "purpose": "maskable"
@@ -28,7 +28,7 @@
 },
 {  
 
-	"src": "/Alegra360.png",
+	"src": "/sanpablito180.png",
 	"type": "image/png",
 	"sizes": "180x180",
     "purpose": "maskable"
