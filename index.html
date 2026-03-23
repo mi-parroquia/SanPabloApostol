@@ -65,9 +65,7 @@
 function App() {
   const [mostrarAviso, setMostrarAviso] = React.useState(false);
   const imagenesAvisos = [
-    "./Confesionescarta.png",
-    "https://picsum.photos/400/300?random=2",
-    "https://picsum.photos/400/300?random=3"
+    "./Confesionescarta.png"
   ];
   const [imagenModal, setImagenModal] = React.useState(null);
 
@@ -78,7 +76,7 @@ function App() {
       <div className="backdrop-blur-md bg-white/10 p-4 flex items-center shadow-lg fade-up">
         {/* Logo de la parroquia */}
         <img 
-          src="/SanPablito.png" 
+          src="./SanPablito.png" 
           className="w-10 h-10 mr-3 rounded-full bg-white p-1"
         />
 
@@ -139,7 +137,7 @@ function App() {
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-2 shadow-lg fade-up" style={{animationDelay:"0.6s"}}>
           <h2 className="font-bold mb-2 text-center">Imagen del Templo</h2>
           <img 
-            src="/iglesia1.jpg" 
+            src="./iglesia1.jpg" 
             className="w-full h-56 object-cover rounded-xl shadow-lg"
           />
         </div>
