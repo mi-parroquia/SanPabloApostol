@@ -195,7 +195,7 @@ function App() {
             className="max-h-[70vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"
           />
           <div className="flex justify-center gap-4 mt-2 w-full max-w-md">
-            {/* Botón Compartir */}
+            {/* Botón Compartir con icono */}
             <button
               onClick={async () => {
                 try {
@@ -207,8 +207,13 @@ function App() {
                   }
                 } catch (err) { alert("No se pudo compartir: " + err.message); }
               }}
-              className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition"
+              className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2"
             >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <circle cx="2" cy="8" r="1.5"/>
+                <circle cx="8" cy="8" r="1.5"/>
+                <circle cx="14" cy="8" r="1.5"/>
+              </svg>
               Compartir
             </button>
 
