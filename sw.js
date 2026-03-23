@@ -1,4 +1,4 @@
-const CACHE_NAME = "parroquia-demo-v2"; // nueva versión
+const CACHE_NAME = "parroquia-demo-v2"; // versión actual del cache
 const urlsToCache = [
   "/index.html",
   "/manifest.json",
@@ -12,14 +12,14 @@ const urlsToCache = [
   "https://unpkg.com/@babel/standalone/babel.min.js"
 ];
 
-// Instalación: cachear archivos
+// Instalación: cachear recursos esenciales
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
 });
 
-// Activación: limpiar cachés antiguas
+// Activación: eliminar cachés antiguas
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) =>
@@ -32,14 +32,15 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetch: devolver del cache primero, luego red
+// Interceptar fetch: cache primero, luego red
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) return cachedResponse;
+
       return fetch(event.request)
         .then((response) => {
-          // Solo cachear respuestas exitosas y de GET
+          // Solo cachear GET y respuestas exitosas
           if (!response || response.status !== 200 || response.type !== "basic") {
             return response;
           }
@@ -50,7 +51,7 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => {
-          // Fallback si falla fetch, por ejemplo devolver index.html para SPA
+          // Fallback para navegación SPA si está offline
           if (event.request.mode === "navigate") {
             return caches.match("/index.html");
           }
