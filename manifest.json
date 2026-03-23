@@ -1,21 +1,44 @@
 {
-  "name": "San Pablo Apóstol",
-  "short_name": "San Pablo Apóstol",
-  "start_url": "/index.html/",
-  "scope": "/",
-  "display": "standalone",
-  "background_color": "#0b1f3a",
-  "theme_color": "#0b1f3a",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3176/3176292.png",
+"name": "Parroquia San Pablo Apóstol",
+"short_name": "Parroquia San Pablo",
+"teme_color": "#005954",
+"backgroud_color": "#005954",
+"display": "standalone",
+"orientation": "portrait",
+"scope": "./",
+"id": "./index.html",
+"start_url": "./?utm_source=web_app_manifest",
+"icons": [
+
+{  
+
+"src": "https://cdn-icons-png.flaticon.com/512/3176/3176292.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3176/3176292.png",
+      "type": "image/png",
+    "purpose": "any maskable"
+
+},
+{  
+
+	 "src": "https://cdn-icons-png.flaticon.com/512/3176/3176292.png",
       "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+      "type": "image/png",
+    "purpose": "maskable"
+
+},
+{  
+
+	"src": "/Alegra360.png",
+	"type": "image/png",
+	"sizes": "180x180",
+    "purpose": "maskable"
+
+}
+
+
+
+]
+
+
+
 }
