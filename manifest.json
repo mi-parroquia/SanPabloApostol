@@ -1,44 +1,33 @@
 {
-"name": "Parroquia San Pablo Apóstol",
-"short_name": "Parroquia San Pablo",
-"teme_color": "#005954",
-"backgroud_color": "#005954",
-"display": "standalone",
-"orientation": "portrait",
-"scope": "./",
-"id": "./index.html",
-"start_url": "./?utm_source=web_app_manifest",
-"icons": [
-
-{  
-
-"src": "sanpablito192.png",
+  "name": "Parroquia San Pablo Apóstol",
+  "short_name": "Parroquia San Pablo",
+  "description": "App oficial de la Parroquia San Pablo Apóstol - Horarios, Avisos y Ubicación",
+  "theme_color": "#005954",
+  "background_color": "#005954",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "./",
+  "id": "./index.html",
+  "start_url": "./?utm_source=web_app_manifest",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "./sanpablito192.png",
       "sizes": "192x192",
       "type": "image/png",
-    "purpose": "any maskable"
-
-},
-{  
-
-	 "src": "sanpablito512.png",
+      "purpose": "any"
+    },
+    {
+      "src": "./sanpablito512.png",
       "sizes": "512x512",
       "type": "image/png",
-    "purpose": "maskable"
-
-},
-{  
-
-	"src": "/sanpablito180.png",
-	"type": "image/png",
-	"sizes": "180x180",
-    "purpose": "maskable"
-
-}
-
-
-
-]
-
-
-
+      "purpose": "maskable"
+    },
+    {
+      "src": "./sanpablito180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
