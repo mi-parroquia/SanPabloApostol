@@ -49,24 +49,53 @@
 </head>
 <body>
 
-<div class="flex justify-center mb-4 mt-2">
-  <button id="btnInstalar" 
-          class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300 hidden">
-    📲 Instalar App
-  </button>
-</div>
-
 <div id="root"></div>
 
 <script type="text/babel">
 
 function App() {
   const [mostrarAviso, setMostrarAviso] = React.useState(false);
-  const imagenesAvisos = ["./Confesionescarta.png"];
   const [imagenModal, setImagenModal] = React.useState(null);
+  const [deferredPrompt, setDeferredPrompt] = React.useState(null);
+  const [mostrarBtnPWA, setMostrarBtnPWA] = React.useState(false);
+
+  const imagenesAvisos = ["./Confesionescarta.png"];
+
+  // Manejo del botón PWA
+  React.useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setMostrarBtnPWA(true);
+    };
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+  }, []);
+
+  const instalarApp = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    console.log("Elección del usuario:", choice.outcome);
+    if (choice.outcome === "accepted") setMostrarBtnPWA(false);
+    setDeferredPrompt(null);
+  };
 
   return (
     <div className="max-w-md mx-auto min-h-screen text-white">
+
+      {/* BOTÓN PWA */}
+      {mostrarBtnPWA && (
+        <div className="flex justify-center mb-4 mt-2">
+          <button
+            onClick={instalarApp}
+            className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300"
+          >
+            📲 Instalar App
+          </button>
+        </div>
+      )}
 
       {/* HEADER */}
       <div className="backdrop-blur-md bg-white/10 p-4 flex items-center shadow-lg fade-up">
@@ -222,24 +251,6 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
-// --------- PWA INSTALL BUTTON ---------
-let deferredPrompt;
-const btnInstalar = document.getElementById("btnInstalar");
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  btnInstalar.classList.remove("hidden");
-});
-
-btnInstalar.addEventListener("click", async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const choice = await deferredPrompt.userChoice;
-  console.log("Elección del usuario:", choice.outcome);
-  deferredPrompt = null;
-  btnInstalar.classList.add("hidden");
-});
 
 // --------- SERVICE WORKER ---------
 if ('serviceWorker' in navigator) {
