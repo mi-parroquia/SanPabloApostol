@@ -9,10 +9,10 @@
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0b1f3a">
 
-  <!-- Tailwind CSS (CDN seguro) -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- React (CDN seguro) -->
+  <!-- React -->
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
@@ -50,26 +50,23 @@
 <div id="root"></div>
 
 <script type="text/babel">
-
 function App() {
   const [imagenModal, setImagenModal] = React.useState(null);
   const [deferredPrompt, setDeferredPrompt] = React.useState(null);
   const [mostrarBtnPWA, setMostrarBtnPWA] = React.useState(false);
 
   const imagenesAvisos = [
-    "./Confesionescarta.png",
-    "./Aviso2.png",
-    "./Aviso3.png"
+    "./Confesionescarta.png"
   ];
 
   const pastorales = [
-    { nombre: "Misiones", img: "https://via.placeholder.com/300x200?text=Misiones", link: "/misiones.html" },
-    { nombre: "Catequesis", img: "https://via.placeholder.com/300x200?text=Catequesis", link: "/catequesis.html" },
-    { nombre: "Familiar", img: "https://via.placeholder.com/300x200?text=Pastoral+Familiar", link: "/familiar.html" },
-    { nombre: "Juvenil", img: "https://via.placeholder.com/300x200?text=Pastoral+Juvenil", link: "/juvenil.html" },
+    { nombre: "Misiones", img: "https://source.unsplash.com/300x200/?church,mission", link: "/misiones.html" },
+    { nombre: "Catequesis", img: "https://source.unsplash.com/300x200/?bible,children", link: "/catequesis.html" },
+    { nombre: "Familiar", img: "https://source.unsplash.com/300x200/?family,church", link: "/familiar.html" },
+    { nombre: "Juvenil", img: "https://source.unsplash.com/300x200/?youth,church", link: "/juvenil.html" },
   ];
 
-  // Manejo PWA
+  // PWA
   React.useEffect(() => {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
@@ -103,7 +100,7 @@ function App() {
         </div>
       )}
 
-      {/* HEADER mejorado */}
+      {/* HEADER */}
       <div className="backdrop-blur-md bg-white/10 p-6 flex items-center shadow-lg fade-up rounded-xl mb-3">
         <img src="./SanPablito.png" className="w-14 h-14 mr-4 rounded-full bg-white p-1"/>
         <div>
@@ -116,13 +113,12 @@ function App() {
       <div className="p-3 fade-up" style={{ animationDelay: "0.2s" }}>
         <h2 className="font-bold mb-2 text-center text-lg">Avisos Parroquiales</h2>
         {imagenesAvisos.length === 1 ? (
-          <div className="flex flex-col items-center">
+          <div className="flex justify-center">
             <img
               src={imagenesAvisos[0]}
               className="w-full max-w-md aspect-[3/4] object-contain rounded-lg shadow-lg cursor-pointer"
               onClick={() => setImagenModal(imagenesAvisos[0])}
             />
-            <p className="text-xs mt-2 text-center">Click para ampliar</p>
           </div>
         ) : (
           <div className="flex flex-col gap-1">
@@ -144,7 +140,7 @@ function App() {
       {/* CONTENIDO */}
       <div className="p-3 space-y-4 fade-up" style={{animationDelay: "0.4s"}}>
 
-        {/* ANUNCIO con animación sutil */}
+        {/* ANUNCIO */}
         <div className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white rounded-2xl p-6 shadow-xl highlight-glow">
           <h2 className="font-extrabold text-2xl mb-3 text-center">✨ ¡Aviso! ✨</h2>
           <p className="text-lg font-semibold text-center mb-2">
@@ -159,7 +155,7 @@ function App() {
           <p className="text-center mt-4 font-semibold">¡Te esperamos! 🙌</p>
         </div>
 
-        {/* SECCIÓN HORARIOS */}
+        {/* HORARIOS */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
           <h2 className="font-bold mb-2 text-lg">Horarios</h2>
           <p><b>Misa:</b> Domingo 8:00, 12:00, 19:00 HRS</p>
@@ -167,7 +163,7 @@ function App() {
           <p><b>Misa diaria:</b> 8:00 AM</p>
         </div>
 
-        {/* SECCIÓN PASTORALES */}
+        {/* PASTORALES */}
         <div>
           <h2 className="font-bold mb-3 text-lg text-center">Pastorales</h2>
           <div className="grid grid-cols-2 gap-3">
@@ -203,7 +199,7 @@ function App() {
 
       </div>
 
-      {/* MODAL IMAGEN */}
+      {/* MODAL */}
       {imagenModal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center p-4"
@@ -216,7 +212,7 @@ function App() {
             className="max-h-[70vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"
           />
           <div className="flex justify-center gap-4 mt-2 w-full max-w-md">
-            {/* Botón Compartir con icono */}
+            {/* Compartir con icono tipo 3 puntos a la derecha */}
             <button
               onClick={async () => {
                 try {
@@ -230,15 +226,14 @@ function App() {
               }}
               className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <circle cx="2" cy="8" r="1.5"/>
-                <circle cx="8" cy="8" r="1.5"/>
-                <circle cx="14" cy="8" r="1.5"/>
-              </svg>
               Compartir
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 4 16">
+                <circle cx="2" cy="2" r="1"/>
+                <circle cx="2" cy="8" r="1"/>
+                <circle cx="2" cy="14" r="1"/>
+              </svg>
             </button>
 
-            {/* Botón Cerrar */}
             <button
               onClick={() => setImagenModal(null)}
               className="flex-1 bg-red-600 text-white py-2 rounded-lg shadow hover:bg-red-700 transition"
@@ -250,7 +245,7 @@ function App() {
       )}
 
       {/* FOOTER */}
-      <footer className="mt-6 text-center text-white/70 text-sm p-4">
+      <footer className="mt-6 text-center text-white text-sm p-4 bg-white/10 backdrop-blur-md rounded-xl shadow-inner">
         Diseñado por [Tu Nombre] | Ayuda a mejorar la aplicación con tu apoyo económico
       </footer>
 
@@ -259,7 +254,6 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
 </script>
 
 <!-- SERVICE WORKER -->
