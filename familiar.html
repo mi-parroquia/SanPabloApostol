@@ -12,53 +12,66 @@ body {
   background: linear-gradient(to bottom, #065f46, #10b981);
   font-family: 'Inter', sans-serif;
 }
+.fade-up { animation: fadeUp 0.8s; }
+@keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
 </style>
 </head>
 
 <body>
 
-<div class="max-w-md mx-auto min-h-screen flex items-center justify-center p-4 text-white">
+<div class="max-w-md mx-auto min-h-screen text-white p-4">
 
-  <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-xl text-center">
+  <div class="bg-white/20 p-5 rounded-2xl text-center fade-up">
+    <h1 class="text-2xl font-bold">👨‍👩‍👧 Pastoral Familiar</h1>
+  </div>
 
-    <h2 class="text-xl font-bold mb-4">👨‍👩‍👧 Pastoral Familiar</h2>
+  <div class="mt-6 bg-white/20 p-5 rounded-2xl text-center fade-up">
+
+    <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=800" class="rounded-xl mb-4">
+
+    <h2 class="font-bold mb-3">Herramienta para Coordinadores</h2>
 
     <p class="mb-3 text-sm">
-      Espacio para comunicar información de forma clara y ordenada.
+      Espacio para compartir información de manera clara y organizada.
     </p>
 
     <p class="mb-3 text-sm">
-      Evita la pérdida de información y la necesidad de repetir avisos constantemente.
+      A diferencia de otros medios, la información permanece disponible y no se pierde entre publicaciones.
     </p>
 
     <p class="mb-3 text-sm">
-      Permite una comunicación más organizada y accesible para las familias.
+      Esto permite una comunicación más ordenada y accesible para la vida parroquial.
     </p>
 
     <p class="mb-3 text-xs text-yellow-100">
-      Acceso mediante código QR, de forma segura y sin compartir datos personales.
+      Acceso mediante código QR, de forma segura y sin necesidad de compartir datos personales.
     </p>
 
-    <p class="mb-3 text-xs text-yellow-100">
-      Beneficio directo para toda la comunidad parroquial.
-    </p>
-
-    <p class="mb-4 text-xs text-yellow-100">
-      Si considera apoyar este proyecto, su colaboración contribuye a su continuidad y mejora.
-    </p>
-
-    <a href="https://wa.me/525512345678" class="bg-green-500 px-5 py-2 rounded-xl font-bold">
+    <a href="https://wa.me/5255" class="bg-green-500 px-5 py-2 rounded-xl font-bold inline-block mt-2">
       WhatsApp
     </a>
 
   </div>
 
-</div>
+  <div class="text-center mt-6">
+    <a href="https://mi-parroquia.github.io/SanPabloApostol/" class="text-yellow-200">
+      ← Volver al inicio
+    </a>
+  </div>
 
-<div class="text-center mt-4">
-  <a href="https://mi-parroquia.github.io/SanPabloApostol/" class="text-yellow-200">
-    ← Volver al inicio
-  </a>
+  <footer class="mt-6 text-center text-sm text-white/80 p-4 bg-white/10 rounded-xl leading-relaxed">
+
+    <p class="mb-2">
+      Este espacio busca servir mejor a nuestra parroquia, fortaleciendo la comunicación y la vida pastoral.
+    </p>
+
+    <p class="text-yellow-200 text-xs mt-2">
+      El mantenimiento de este servicio requiere un esfuerzo constante.  
+      Si lo considera adecuado, su apoyo permitirá que este proyecto continúe y siga fortaleciéndose para el bien de todos.
+    </p>
+
+  </footer>
+
 </div>
 
 </body>
