@@ -12,19 +12,19 @@
   "lang": "es",
   "icons": [
     {
-      "src": "./sanpablito192.png",
+      "src": "./templo192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./sanpablito512.png",
+      "src": "./templo512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "./sanpablito180.png",
+      "src": "./templo180.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "maskable"
