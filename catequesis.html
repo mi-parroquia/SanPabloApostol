@@ -8,7 +8,10 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body { background: linear-gradient(to bottom, #1e3a8a, #3b82f6); font-family: 'Inter', sans-serif; }
+body {
+  background: linear-gradient(to bottom, #1e3a8a, #3b82f6);
+  font-family: 'Inter', sans-serif;
+}
 .fade-up { animation: fadeUp 0.8s; }
 @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
 </style>
@@ -16,69 +19,49 @@ body { background: linear-gradient(to bottom, #1e3a8a, #3b82f6); font-family: 'I
 
 <body>
 
-<div class="max-w-md mx-auto min-h-screen text-white p-4">
+<div class="max-w-md mx-auto min-h-screen flex items-center justify-center p-4 text-white">
 
-  <!-- HEADER -->
-  <div class="bg-white/20 p-5 rounded-2xl text-center fade-up">
-    <h1 class="text-2xl font-bold">📖 Catequesis</h1>
-  </div>
+  <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl shadow-xl text-center fade-up">
 
-  <!-- CONTENIDO -->
-  <div class="mt-6 bg-white/20 p-5 rounded-2xl text-center fade-up">
+    <h2 class="text-xl font-bold mb-4">📖 Catequesis</h2>
 
-    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800" class="rounded-xl mb-4">
-
-    <h2 class="font-bold mb-3">Herramienta para Coordinadores</h2>
-
-    <p class="mb-3">
-      Esta plataforma ha sido creada para apoyar la labor de los coordinadores de catequesis, facilitando la publicación de información de manera clara, ordenada y siempre disponible.
+    <p class="mb-3 text-sm">
+      Espacio para compartir información clara, organizada y siempre disponible.
     </p>
 
-    <p class="mb-3">
-      A diferencia de las redes sociales, los avisos no se pierden entre publicaciones, evitando la necesidad de repetir información constantemente y permitiendo que los contenidos permanezcan accesibles en un solo lugar.
+    <p class="mb-3 text-sm">
+      A diferencia de las redes sociales, los avisos no se pierden ni requieren repetirse constantemente.
     </p>
 
-    <p class="mb-3">
-      Este medio contribuye a una comunicación más organizada y oficial dentro de la parroquia, fortaleciendo la coordinación de las actividades pastorales.
+    <p class="mb-3 text-sm">
+      Esto facilita una mejor organización y una comunicación más accesible para todo el pueblo.
     </p>
 
-    <!-- FUTURO WEB APP -->
-    <p class="mb-3 text-sm text-yellow-100">
-      Próximamente, esta plataforma será una web app disponible para toda la comunidad, permitiendo una comunicación más eficiente, sin necesidad de compartir información personal y con mayor orden en la difusión de contenidos.
+    <p class="mb-3 text-xs text-yellow-100">
+      Acceso mediante código QR, de forma segura, sin necesidad de compartir datos personales.
     </p>
 
-    <!-- WHATSAPP -->
-    <a href="https://wa.me/525512345678" target="_blank"
-      class="bg-green-500 px-6 py-2 rounded-xl font-bold inline-block mt-2">
-      Contactar por WhatsApp
+    <p class="mb-3 text-xs text-yellow-100">
+      Herramienta pensada para el beneficio de toda la comunidad parroquial.
+    </p>
+
+    <p class="mb-4 text-xs text-yellow-100">
+      El mantenimiento de este servicio requiere un esfuerzo constante.  
+      Si considera apoyar este proyecto, su colaboración contribuye a su continuidad y mejora.
+    </p>
+
+    <a href="https://wa.me/525512345678" class="bg-green-500 px-5 py-2 rounded-xl font-bold">
+      WhatsApp
     </a>
 
   </div>
 
-  <!-- BOTÓN REGRESO -->
-  <div class="text-center mt-6">
-    <a href="https://mi-parroquia.github.io/SanPabloApostol/" class="text-yellow-300">
-      ← Volver al inicio
-    </a>
-  </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer class="mt-6 text-center text-sm text-white/80 p-4 bg-white/10 rounded-xl leading-relaxed">
-
-    <p class="mb-2">
-      Este proyecto nace con el deseo de servir mejor a nuestra comunidad, fortaleciendo la comunicación y la vida parroquial.
-    </p>
-
-    <p class="mb-2">
-      Con el apoyo de todos, podemos seguir mejorando este espacio, para que sea motivo de orgullo para nuestro pueblo y reflejo de una parroquia viva, organizada y en constante crecimiento.
-    </p>
-
-    <p class="text-yellow-200 text-xs mt-2">
-      Cada aporte, grande o pequeño, contribuye a que este servicio continúe y mejore para el bien de todos.
-    </p>
-
-  </footer>
-
+<div class="text-center mt-4">
+  <a href="https://mi-parroquia.github.io/SanPabloApostol/" class="text-yellow-300">
+    ← Volver al inicio
+  </a>
 </div>
 
 </body>
