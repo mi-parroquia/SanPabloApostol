@@ -5,6 +5,9 @@ const urlsToCache = [
   "/SanPablito.png",
   "/Confesionescarta.png",
   "/iglesia1.jpg",
+  "/templo192.png",
+  "/templo512.png",
+  "/templo180.png"
   "/sanpablito192.png",
   "/sanpablito512.png",
   "/sanpablito180.png"
