@@ -33,6 +33,51 @@ body { background: linear-gradient(to bottom, #0b1f3a, #1e3a5f); font-family: 'I
 
 <script type="text/babel">
 function App() {
+
+const compartirImagen = async () => {
+  try {
+    if (!imagenModal) return;
+
+    // Intentar compartir como archivo
+    try {
+      const response = await fetch(imagenModal);
+      const blob = await response.blob();
+      const file = new File([blob], "aviso.jpg", { type: blob.type });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Aviso Parroquial",
+          text: "Te comparto este aviso"
+        });
+        return;
+      }
+    } catch (e) {
+      console.warn("No se pudo convertir a archivo");
+    }
+
+    // Compartir como link
+    if (navigator.share) {
+      await navigator.share({
+        title: "Aviso Parroquial",
+        text: "Mira este aviso",
+        url: imagenModal
+      });
+      return;
+    }
+
+    // Fallback copiar
+    await navigator.clipboard.writeText(imagenModal);
+    alert("Link copiado");
+
+  } catch (err) {
+    console.error(err);
+    alert("No se pudo compartir");
+  }
+};
+
+
+  
   const [imagenModal,setImagenModal]=React.useState(null);
   const [deferredPrompt,setDeferredPrompt]=React.useState(null);
   const [mostrarBtnPWA,setMostrarBtnPWA]=React.useState(false);
@@ -267,69 +312,37 @@ function App() {
       </div>
 
       {/* MODAL */}
-      {imagenModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center p-4" onClick={e=>{if(e.target===e.currentTarget) setImagenModal(null);}}>
-          <img src={imagenModal} className="max-h-[70vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"/>
-          <div className="flex justify-center gap-4 mt-2 w-full max-w-md">
-         
-<button
-  onClick={async () => {
-    try {
-      if (!imagenModal) throw new Error("No hay imagen");
+{imagenModal && (
+  <div
+    className="fixed inset-0 bg-black/80 z-50 flex flex-col items-center justify-center p-4"
+    onClick={(e) => {
+      if (e.target === e.currentTarget) setImagenModal(null);
+    }}
+  >
+    <img
+      src={imagenModal}
+      className="max-h-[70vh] max-w-[90vw] object-contain rounded-lg shadow-2xl mb-4"
+    />
 
-      let blob;
+    <div className="flex gap-3 w-full max-w-md">
+      
+      <button
+        onClick={compartirImagen}
+        className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2"
+      >
+        <i className="fas fa-share-alt"></i>
+        Compartir
+      </button>
 
-      try {
-        const response = await fetch(imagenModal);
-        blob = await response.blob();
-      } catch (e) {
-        console.warn("Error al obtener imagen");
-      }
+      <button
+        onClick={() => setImagenModal(null)}
+        className="flex-1 bg-red-500 text-white py-2 rounded-lg shadow hover:bg-red-600 transition"
+      >
+        Cerrar
+      </button>
 
-      if (blob) {
-        const file = new File([blob], "aviso.jpg", { type: blob.type });
-
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            files: [file],
-            title: "Aviso Parroquial",
-            text: "Te comparto este aviso"
-          });
-          return;
-        }
-      }
-
-      if (navigator.share) {
-        await navigator.share({
-          title: "Aviso Parroquial",
-          text: "Mira este aviso",
-          url: imagenModal
-        });
-        return;
-      }
-
-      await navigator.clipboard.writeText(imagenModal);
-      alert("Se copió el link de la imagen");
-
-    } catch (err) {
-      console.error(err);
-
-      try {
-        await navigator.clipboard.writeText(imagenModal);
-        alert("No se pudo compartir. Link copiado.");
-      } catch {
-        alert("Error al compartir");
-      }
-    }
-  }}
-  className="flex-1 bg-white text-black py-2 rounded-lg shadow hover:bg-gray-200 transition flex items-center justify-center gap-2"
->
-  <i className="fas fa-share-alt"></i>
-  Compartir
-</button>
-
-</div> {/* ← cerrar contenedor de botones */}
-</div> {/* ← cerrar modal */}
+    </div>
+  </div>
 )}
 
             
