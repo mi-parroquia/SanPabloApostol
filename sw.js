@@ -1,61 +1,66 @@
-const CACHE_NAME = "parroquia-demo-v2"; // versión actual del cache
+const CACHE_NAME = "parroquia-demo-v3";
+
 const urlsToCache = [
+  "/",
   "/index.html",
   "/manifest.json",
   "/iglesia1.jpg",
   "/SanPablito.png",
-  "/Confesionescarta.png",
-  "/sw.js",
-  "https://cdn.tailwindcss.com",
-  "https://unpkg.com/react@18/umd/react.development.js",
-  "https://unpkg.com/react-dom@18/umd/react-dom.development.js",
-  "https://unpkg.com/@babel/standalone/babel.min.js"
+  "/Confesionescarta.png"
 ];
 
-// Instalación: cachear recursos esenciales
+// INSTALL
 self.addEventListener("install", (event) => {
+  self.skipWaiting(); // 🔥 activa inmediato
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(urlsToCache);
+    })
   );
 });
 
-// Activación: eliminar cachés antiguas
+// ACTIVATE
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) =>
+    caches.keys().then((keys) =>
       Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
       )
     )
   );
+
+  self.clients.claim(); // 🔥 toma control inmediato
 });
 
-// Interceptar fetch: cache primero, luego red
+// FETCH (IMPORTANTE: network-first para HTML)
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
+  if (event.request.mode === "navigate") {
+    // 🔥 HTML siempre fresco
+    event.respondWith(
+      fetch(event.request).catch(() =>
+        caches.match("/index.html")
+      )
+    );
+    return;
+  }
 
-      return fetch(event.request)
-        .then((response) => {
-          // Solo cachear GET y respuestas exitosas
-          if (!response || response.status !== 200 || response.type !== "basic") {
-            return response;
-          }
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
+  // 🔥 assets cache-first
+  event.respondWith(
+    caches.match(event.request).then((cached) => {
+      return (
+        cached ||
+        fetch(event.request).then((res) => {
+          return caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, res.clone());
+            return res;
           });
-          return response;
         })
-        .catch(() => {
-          // Fallback para navegación SPA si está offline
-          if (event.request.mode === "navigate") {
-            return caches.match("/index.html");
-          }
-        });
+      );
     })
   );
 });
